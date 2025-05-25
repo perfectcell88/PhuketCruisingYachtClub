@@ -127,7 +127,7 @@ body.overlay-active .home-content {
 #loading-dots { display: flex; justify-content: center; align-items: center; margin-top: var(--space-sm); }
 #loading-dots .dot {
     width: 10px; height: 10px; margin: 0 var(--space-xs);
-    background-color: var(--original-gold-highlight); /* Original gold */
+    background-color: var(--marine-highlight); /* Original gold */
     border-radius: 50%;
     animation: loadingDotAnimation 1.4s infinite ease-in-out;
 }
