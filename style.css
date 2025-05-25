@@ -232,7 +232,7 @@ nav {
 }
 .home-title { /* Main Page Title */
     font-family: var(--font-heading-main); font-size: 2.6rem; /* Adjusted size */
-    color: var(--muted-gold-highlight); margin-bottom: var(--space-sm);
+    color: var(--marine-highlight); margin-bottom: var(--space-sm);
     text-shadow: var(--text-shadow-strong); font-weight: 700; letter-spacing: 1.5px; /* Increased spacing */
     position: relative; animation: textWave 8s ease-in-out infinite;
 }
