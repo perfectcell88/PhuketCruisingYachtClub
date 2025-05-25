@@ -6,6 +6,7 @@
 /* Enhanced styles for Phuket Cruising Yacht Club - Elite Marine Theme */
 
 :root {
+    --marine-highlight: #0077B6;
     --primary-dark-blue: #0A2F51;
     --secondary-accent-blue: #5085A5; /* Slightly desaturated, sophisticated blue */
     --primary-light-text: #E8EFF5; /* Off-white with a hint of cool blue */
