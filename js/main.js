@@ -34,7 +34,7 @@ function init() {
     }),
     sunDirection: new THREE.Vector3(),
     sunColor: 0xffcc66,
-    waterColor: 0x44aaff,
+    waterColor: 0x88ddee,
     distortionScale: 1.0,
     fog: scene.fog !== undefined
   });
