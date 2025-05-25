@@ -2,6 +2,7 @@ import * as THREE from './three.module.js';
 import { OrbitControls } from './controls/OrbitControls.js';
 import { Water } from './objects/Water.js';
 import { Sky } from './objects/Sky.js';
+import { UnrealBloomPass } from './js/postprocessing/UnrealBloomPass.js';
 import { Lensflare, LensflareElement } from './objects/Lensflare.js';
 
 let container;
