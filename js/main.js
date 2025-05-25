@@ -4,7 +4,6 @@ import { Water } from './objects/Water.js';
 import { Sky } from './objects/Sky.js';
 import { Lensflare, LensflareElement } from './objects/Lensflare.js';
 
-
 let container;
 let camera, scene, renderer;
 let controls, water, sun;
@@ -44,9 +43,8 @@ function init() {
   water.rotation.x = -Math.PI / 2;
   scene.add(water);
 
-   // 🔧 Adjust clarity here:
-  water.material.uniforms.alpha.value = 0.9; // less = clearer
-  water.material.uniforms.distortionScale.value = 0.02; // less = smoother surface
+  water.material.uniforms.alpha.value = 0.9;
+  water.material.uniforms.distortionScale.value = 0.02;
 
   const sky = new Sky();
   sky.scale.setScalar(10000);
@@ -66,17 +64,21 @@ function init() {
   sky.material.uniforms['sunPosition'].value.copy(sun);
   water.material.uniforms['sunDirection'].value.copy(sun).normalize();
 
-  // Add a directional light to simulate sunset glow
-const directionalLight = new THREE.DirectionalLight(0xffaa66, 1.5);
- const textureLoader = new THREE.TextureLoader();
-const textureFlare = textureLoader.load('textures/lensflare0.png'); // Make sure the file exists
+  const directionalLight = new THREE.DirectionalLight(0xffaa66, 2.0);
+  directionalLight.position.copy(sun.clone().multiplyScalar(100));
 
-const lensflare = new Lensflare();
-lensflare.addElement(new LensflareElement(textureFlare, 300, 0, new THREE.Color(0xffcc88))); // soft sunset glow
-directionalLight.add(lensflare); 
-directionalLight.position.copy(sun.clone().multiplyScalar(100));
-scene.add(directionalLight);
+  const textureLoader = new THREE.TextureLoader();
+  const textureFlare0 = textureLoader.load('textures/lensflare0.png');
+  const textureFlare3 = textureLoader.load('textures/lensflare3.png');
 
+  const lensflare = new Lensflare();
+  lensflare.addElement(new LensflareElement(textureFlare0, 700, 0.0, new THREE.Color(0xffcc88)));
+  lensflare.addElement(new LensflareElement(textureFlare3, 200, 0.4));
+  lensflare.addElement(new LensflareElement(textureFlare3, 100, 0.6));
+  lensflare.addElement(new LensflareElement(textureFlare3, 60, 0.8));
+  directionalLight.add(lensflare);
+
+  scene.add(directionalLight);
 
   renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -112,18 +114,17 @@ function render() {
   renderer.render(scene, camera);
 }
 
-// Simulate loading progress with smooth increments
 function simulateLoadingAndStart() {
   let progress = 0;
 
   const interval = setInterval(() => {
-    progress += Math.random() * 5; // random increment 0-5%
+    progress += Math.random() * 5;
     if (progress >= 100) {
       progress = 100;
       updateLoadingUI(progress);
       clearInterval(interval);
       fadeOutLoadingOverlay();
-      animate(); // start animation loop
+      animate();
     } else {
       updateLoadingUI(progress);
     }
@@ -134,10 +135,9 @@ function updateLoadingUI(progress) {
   loadingText.textContent = `Setting sail... ${Math.floor(progress)}%`;
 }
 
-// Fade out loading overlay smoothly
 function fadeOutLoadingOverlay() {
   loadingOverlay.style.opacity = '0';
   setTimeout(() => {
     loadingOverlay.style.display = 'none';
-  }, 1000); // match CSS transition duration
+  }, 1000);
 }
