@@ -56,7 +56,7 @@ function init() {
   skyUniforms['mieCoefficient'].value = 0.02;
   skyUniforms['mieDirectionalG'].value = 0.8;
 
-  const parameters = { elevation: 3, azimuth: 180 };
+  const parameters = { elevation: 5, azimuth: 150 };
   const phi = THREE.MathUtils.degToRad(90 - parameters.elevation);
   const theta = THREE.MathUtils.degToRad(parameters.azimuth);
 
