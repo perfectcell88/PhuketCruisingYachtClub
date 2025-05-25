@@ -159,15 +159,14 @@ a:hover { color: var(--muted-gold-highlight); opacity: 0.85; }
 .nav-container {
     position: fixed; top: 0; left: 0; right: 0; width: 100%; padding: 0;
     z-index: 100; opacity: 0; transform: translateY(-100%); /* Start off-screen */
-    /* MODIFIED: Added background and box-shadow transitions */
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out, background 0.4s ease, box-shadow 0.4s ease;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out, background 0.4s ease, box-shadow 0.4s ease; /* ADDED background and box-shadow transition */
     pointer-events: none; visibility: hidden;
-    /* MODIFIED: Initial background and shadow using new variables */
+    /* MOVED & MODIFIED background and box-shadow for scroll effect */
     background: var(--nav-bg-initial);
     box-shadow: var(--nav-shadow-initial);
 }
 .nav-container.visible { opacity: 1; transform: translateY(0); pointer-events: all; visibility: visible; }
-/* ADDED: Class for scrolled navigation state */
+/* ADDED class for scrolled navigation state */
 .nav-container.nav-scrolled {
     background: var(--nav-bg-scrolled);
     box-shadow: var(--nav-shadow-scrolled);
@@ -176,8 +175,8 @@ nav {
     display: flex; justify-content: space-between; align-items: center;
     padding: var(--space-sm) var(--space-lg); /* Use spacing vars */
     /* background: var(--glass-bg-nav); REMOVED - Handled by .nav-container */
-    backdrop-filter: var(--glass-blur-amount); -webkit-backdrop-filter: var(--glass-blur-amount);
-    border-bottom: 1px solid var(--glass-border-light); /* Softer border */
+    backdrop-filter: var(--glass-blur-amount); -webkit-backdrop-filter: var(--glass-blur-amount); /* RETAINED from original */
+    border-bottom: 1px solid var(--glass-border-light); /* Softer border - RETAINED from original */
     /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); REMOVED - Handled by .nav-container */
     width: 100%; box-sizing: border-box; height: 70px; /* Fixed height */
 }
@@ -245,12 +244,13 @@ nav {
     filter:blur(10px);animation:glowShift 10s ease-in-out infinite alternate; /* Slower, alternate */
 }
 @keyframes glowShift { 0%{opacity:0.2;transform:translateX(-50%) scale(1)} 100%{opacity:0.3;transform:translateX(-50%) scale(1.1)} }
-.home-subtitle { /* This is the subtitle directly under the main page title */
+/* This .home-subtitle is for the main page title's subtitle, distinct from .hero-subtitle */
+.home-subtitle {
     font-family: var(--font-body); font-size: 1.3rem; /* Adjusted */
     color: var(--primary-light-text); margin-bottom: var(--space-lg);
     font-weight: 300; /* Lighter for subtitle */
     letter-spacing: 0.5px;
-    /* MODIFIED text-shadow as per request for better definition */
+    /* MODIFIED text-shadow as per request */
     text-shadow: 0 1px 2px rgba(0,0,0,0.7), 0 0 10px rgba(249,217,118,0.15);
 }
 
@@ -269,10 +269,10 @@ nav {
     margin-bottom: var(--space-sm); letter-spacing: 1px; /* Refined spacing */
     text-shadow: var(--text-shadow-strong);
 }
-.hero-subtitle { /* "Your Tranquil Haven..." (this specific instance) */
+.hero-subtitle { /* "Your Home Base..." / "Your Tranquil Haven..." */
     font-family: var(--font-body); font-size: 1.15rem; /* Adjusted */
     color: var(--primary-light-text); font-weight: 300; letter-spacing: 0.3px;
-    /* MODIFIED text-shadow for this specific subtitle instance for consistency */
+    /* MODIFIED text-shadow for this specific subtitle instance for consistency, can be overridden if main .home-subtitle is different */
     text-shadow: 0 1px 2px rgba(0,0,0,0.7), 0 0 10px rgba(249,217,118,0.15);
     margin-bottom: 0; /* Remove bottom margin if it's the last element */
 }
@@ -326,11 +326,10 @@ nav {
 .detail-item i { font-size: 1.3rem; color: var(--secondary-accent-blue); }
 .detail-item span { font-family: var(--font-body); font-size: 0.95rem; color: var(--primary-light-text); }
 .announcement { /* MODIFIED "Taco Tuesday" styles */
-    grid-column: 1 / -1; display: flex; align-items: center; justify-content: flex-start; /* Ensure left alignment */
-    gap: var(--space-sm); /* Original gap from user's file was 1rem, adjusted to var */
-    margin-top: var(--space-md); /* Original margin-top was 1rem */
-    padding: var(--space-md); /* Original padding was 1.5rem */
-    border-radius: 10px; /* Original radius */
+    grid-column: 1 / -1; display: flex; align-items: center; justify-content: flex-start;
+    gap: var(--space-sm);
+    margin-top: var(--space-md); padding: var(--space-md);
+    border-radius: 10px;
     /* MODIFIED for standout */
     background: var(--muted-gold-highlight);
     color: var(--primary-dark-blue);
@@ -339,13 +338,13 @@ nav {
     border: 1px solid rgba(0,0,0,0.1); /* Added subtle border */
 }
 .announcement i {
-    font-size: 1.5rem; /* Original size was 1.8rem */
+    font-size: 1.5rem;
     color: var(--primary-dark-blue); /* Match text color */
     animation: pulseStar 2.5s infinite ease-in-out;
 }
 @keyframes pulseStar { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.15);opacity:0.7} } /* Star specific pulse */
 .announcement span {
-    font-family: var(--font-body); font-size: 1.05rem; /* Original size was 1.2rem */
+    font-family: var(--font-body); font-size: 1.05rem;
     color: var(--primary-dark-blue); /* Match text color */
     /* font-weight is on parent .announcement */
 }
@@ -401,7 +400,7 @@ nav {
 }
 .benefits-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Explicitly 3 columns from original CSS */
+    grid-template-columns: repeat(3, 1fr); /* Ensuring 3 columns from original CSS */
     gap: var(--space-lg);
     margin-bottom: var(--space-xl);
     align-items: stretch; /* ADDED to make cards in a row equal height */
@@ -414,7 +413,7 @@ nav {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex; flex-direction: column;
     /* min-height: 450px; REMOVED to address empty space issue */
-    height: 100%; /* RETAINED from original - works with align-items: stretch on parent */
+    /* height: 100%; RETAINED from original - works with align-items: stretch on parent */
 }
 .benefit-category h4 { /* "Partner Discounts", "Club Privileges", etc. */
     color: var(--secondary-accent-blue); font-size: 1.25rem; margin-bottom: var(--space-md);
@@ -466,8 +465,7 @@ nav {
 
 /* Event Link (Facebook Button on Home) */
 .event-link {
-    color: var(--primary-light-text); /* MODIFIED for better contrast */
-    text-decoration: none; font-weight: 500;
+    color: var(--secondary-accent-blue); text-decoration: none; font-weight: 500;
     transition: all 0.3s ease; display: inline-flex; align-items: center;
     gap: var(--space-sm); padding: var(--space-sm) var(--space-md); border-radius: 8px;
     background: var(--glass-bg-base);
@@ -524,8 +522,8 @@ nav {
 }
 .content-container::-webkit-scrollbar-thumb:hover { background: var(--muted-gold-highlight); }
 
-.section-logo { /* Logo on top of popup - REVERTED to user's original sizing */
-    width: 100px; height: 100px; position: absolute; top: -50px; /* Original positioning */
+.section-logo { /* Logo on top of popup */
+    width: 70px; height: 70px; position: absolute; top: calc(var(--space-xl) * -0.5 - 5px); /* Position based on padding */
     left: 50%; transform: translateX(-50%);
     filter: drop-shadow(0 0 10px var(--muted-gold-highlight));
     border-radius: 50%; border: 3px solid var(--primary-dark-blue); /* Thicker border */
@@ -764,13 +762,16 @@ textarea.form-control { min-height: 100px; /* Adjusted */ resize: vertical; }
 
 
 /* --- DASHBOARD WIDGETS (Homepage) - Styling for iframe containers, respecting "do not change" for internal/header --- */
+/* .dashboard-title (if used for overall section title) styling is in previous user CSS */
 .widget-grid { /* Container for the captain-widgets (iframes) */
-    max-width: 1200px; /* Reverted to user's original max-width if it was 1400px, or adjusted for 3 columns */
-    margin: var(--space-lg) auto; /* Consistent spacing */
-    padding: 0 var(--space-md); /* Padding for the grid container itself */
-    gap: var(--space-lg);
+    max-width: 1300px; /* Adjusted for better fit */ margin: 0 auto;
+    padding: var(--space-lg) var(--space-md); gap: var(--space-lg); /* Consistent spacing */
+    /* MODIFIED grid-template-columns from user's original CSS was: repeat(3, 1fr) */
+    /* My previous suggestion was repeat(auto-fit, minmax(300px, 1fr)); User's file has repeat(3,1fr) for .widget-grid already. This is fine. */
+    /* The user's style.css uses grid-template-columns: repeat(3, 1fr); */
+    /* Ensuring this is the version used if it wasn't picked up before. */
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Explicit 3 columns for the dashboard on home page */
+    grid-template-columns: repeat(3, 1fr); /* Explicit 3 columns from user's file for this specific grid */
 }
 
 .captain-widget { /* From user's inline styles, ensure it overrides generic .widget if both applied */
@@ -837,13 +838,12 @@ textarea.form-control { min-height: 100px; /* Adjusted */ resize: vertical; }
 /* --- MEDIA QUERIES - Adapting new styles for responsiveness --- */
 /* Using user's existing media query structure and adding/adjusting rules */
 @media (max-width: 1200px) {
-    /* .widget-grid already responsive with auto-fit, this ensures 2 columns if auto-fit results in more */
-    .widget-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .widget-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); padding: var(--space-lg) var(--space-sm); } /* For captain widgets */
     .benefits-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); } /* For benefits grid */
     .dashboard { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); } /* For user's other dashboard */
 }
 @media (min-width: 1400px) { /* From user's original CSS, for .captain-widget */
-    .captain-widget { /* Ensuring it applies to .captain-widget specifically */
+    .captain-widget, .widget { /* Ensuring it applies to .captain-widget specifically too */
         width: 360px !important; max-width: 360px !important;
         margin-left: auto !important; margin-right: auto !important; /* Center if grid column is wider */
     }
@@ -862,7 +862,7 @@ textarea.form-control { min-height: 100px; /* Adjusted */ resize: vertical; }
     .membership-benefits { padding: var(--space-lg); }
     .services-grid.popup-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
     .services-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } /* Homepage services grid */
-     .widget-grid { grid-template-columns: repeat(2, 1fr); } /* For captain widgets on tablet */
+     /* .widget-grid already handled by max-width: 1200px */
 }
 @media (max-width: 768px) { /* Smaller tablets and large mobiles */
     body { font-size: 15px; } /* Slightly smaller base for small screens */
