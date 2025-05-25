@@ -68,6 +68,12 @@ function init() {
 
   // Add a directional light to simulate sunset glow
 const directionalLight = new THREE.DirectionalLight(0xffaa66, 1.5);
+ const textureLoader = new THREE.TextureLoader();
+const textureFlare = textureLoader.load('textures/lensflare0.png'); // Make sure the file exists
+
+const lensflare = new Lensflare();
+lensflare.addElement(new LensflareElement(textureFlare, 300, 0, new THREE.Color(0xffcc88))); // soft sunset glow
+directionalLight.add(lensflare); 
 directionalLight.position.copy(sun.clone().multiplyScalar(100));
 scene.add(directionalLight);
 
