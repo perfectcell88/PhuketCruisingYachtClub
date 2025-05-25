@@ -34,7 +34,7 @@ function init() {
     }),
     sunDirection: new THREE.Vector3(),
     sunColor: 0xffcc66,
-    waterColor: 0x88ddee,
+    waterColor: 0x2288aa,
     distortionScale: 1.0,
     fog: scene.fog !== undefined
   });
@@ -43,8 +43,8 @@ function init() {
   scene.add(water);
 
    // 🔧 Adjust clarity here:
-  water.material.uniforms.alpha.value = 0.6; // less = clearer
-  water.material.uniforms.distortionScale.value = 0.05; // less = smoother surface
+  water.material.uniforms.alpha.value = 0.9; // less = clearer
+  water.material.uniforms.distortionScale.value = 0.02; // less = smoother surface
 
   const sky = new Sky();
   sky.scale.setScalar(10000);
@@ -52,8 +52,8 @@ function init() {
 
   const skyUniforms = sky.material.uniforms;
   skyUniforms['turbidity'].value = 10;
-  skyUniforms['rayleigh'].value = 2;
-  skyUniforms['mieCoefficient'].value = 0.005;
+  skyUniforms['rayleigh'].value = 0.5;
+  skyUniforms['mieCoefficient'].value = 0.02;
   skyUniforms['mieDirectionalG'].value = 0.8;
 
   const parameters = { elevation: 3, azimuth: 180 };
