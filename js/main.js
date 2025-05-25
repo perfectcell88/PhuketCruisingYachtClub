@@ -34,13 +34,17 @@ function init() {
     }),
     sunDirection: new THREE.Vector3(),
     sunColor: 0xffcc66,
-    waterColor: 0x00A0D2,
-    distortionScale: 3.7,
+    waterColor: 0x44aaff,
+    distortionScale: 1.0,
     fog: scene.fog !== undefined
   });
 
   water.rotation.x = -Math.PI / 2;
   scene.add(water);
+
+   // 🔧 Adjust clarity here:
+  water.material.uniforms.alpha.value = 0.6; // less = clearer
+  water.material.uniforms.distortionScale.value = 0.05; // less = smoother surface
 
   const sky = new Sky();
   sky.scale.setScalar(10000);
