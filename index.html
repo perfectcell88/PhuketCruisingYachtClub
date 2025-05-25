@@ -546,7 +546,7 @@
                     tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
                 }),
                 sunDirection: new THREE.Vector3(),
-                sunColor: 0xffcc66, waterColor: 0x226666,
+                sunColor: 0xffcc66, waterColor: 0x2288aa,
                 distortionScale: 3.7, fog: false
             });
             water.rotation.x = -Math.PI/2;
@@ -557,10 +557,10 @@
             sky.scale.setScalar(10000);
             scene.add(sky);
             const uni = sky.material.uniforms;
-            uni.turbidity.value = 10;
-            uni.rayleigh.value = 2;
-            uni.mieCoefficient.value = 0.005;
-            uni.mieDirectionalG.value = 0.8;
+            uni.turbidity.value = 4;
+            uni.rayleigh.value = 3;
+            uni.mieCoefficient.value = 0.003;
+            uni.mieDirectionalG.value = 0.7;
 
             const phi = THREE.MathUtils.degToRad(90), theta = THREE.MathUtils.degToRad(180);
             sun.setFromSphericalCoords(1, phi, theta);
