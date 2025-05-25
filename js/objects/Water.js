@@ -222,7 +222,7 @@ class Water extends Mesh {
 
 		material.uniforms[ 'mirrorSampler' ].value = renderTarget.texture;
 		material.uniforms[ 'textureMatrix' ].value = textureMatrix;
-		material.uniforms[ 'alpha' ].value = alpha;
+		water.material.uniforms['alpha'].value = 0.7;
 		material.uniforms[ 'time' ].value = time;
 		material.uniforms[ 'normalSampler' ].value = normalSampler;
 		material.uniforms[ 'sunColor' ].value = sunColor;
