@@ -522,7 +522,7 @@
             });
         }
 
-        // Three.js Scene Initialization (WebGL Background)
+       // Three.js Scene Initialization (WebGL Background)
            function initScene() {
             const threeJsBackground = document.getElementById('threejs-background'); // Get the container
             if (!threeJsBackground) { // Check if container exists
@@ -568,31 +568,26 @@
             water.material.uniforms.sunDirection.value.copy(sun).normalize();
 
             // Renderer
-            const renderer = new THREE.WebGLRenderer({ antialias: true }); // Keep antialias true
-            renderer.setPixelRatio(window.devicePixelRatio); // Added for sharpness
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.toneMapping = THREE.ACESFilmicToneMapping; // Added for better lighting
-            renderer.toneMappingExposure = 0.6; // Added for better lighting
             container.appendChild(renderer.domElement);
 
             // Controls
             const controls = new OrbitControls(camera, renderer.domElement);
             controls.maxPolarAngle = Math.PI*0.495;
             controls.minDistance = 40; controls.maxDistance = 200;
-            controls.target.copy(sun.clone().multiplyScalar(100)); // Preserving user's original target logic
-            controls.enableZoom = false; // Preserving user's original setting
-            controls.enablePan = false; // Added for a cleaner fixed scenic view
-            controls.autoRotate = true; // Added for subtle motion
-            controls.autoRotateSpeed = 0.12; // Added for subtle motion speed
+            controls.target.copy(sun.clone().multiplyScalar(100));
             controls.update();
-            
+            // --- ADDED: Disable zoom controls ---
+            controls.enableZoom = false;
+            // ------------------------------------
 
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth/window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 // Re-create water particles on resize if home content is visible
-                if (homeContent && homeContent.classList.contains('visible') && !document.body.classList.contains('overlay-active')) { // Added overlay check
+                if (homeContent && homeContent.classList.contains('visible')) { // Check if homeContent exists
                     createWaterParticles();
                 }
             });
@@ -601,10 +596,10 @@
             function animate() {
                 requestAnimationFrame(animate);
                 water.material.uniforms.time.value += 1/60;
-                controls.update(); // Required if autoRotate is true or if damping is enabled
                 renderer.render(scene, camera);
             }
             animate();
+
 
             // Show navigation and home content after scene is initialized
             setTimeout(() => {
