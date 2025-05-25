@@ -64,6 +64,12 @@ function init() {
   sky.material.uniforms['sunPosition'].value.copy(sun);
   water.material.uniforms['sunDirection'].value.copy(sun).normalize();
 
+  // Add a directional light to simulate sunset glow
+const directionalLight = new THREE.DirectionalLight(0xffaa66, 1.5);
+directionalLight.position.copy(sun.clone().multiplyScalar(100));
+scene.add(directionalLight);
+
+
   renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
