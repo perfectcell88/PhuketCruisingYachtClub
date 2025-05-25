@@ -561,10 +561,10 @@
             sky.scale.setScalar(10000);
             scene.add(sky);
             const uni = sky.material.uniforms;
-            uni.turbidity.value = 4;
-            uni.rayleigh.value = 3;
+            uni.turbidity.value = 7;
+            uni.rayleigh.value = 3.5;
             uni.mieCoefficient.value = 0.003;
-            uni.mieDirectionalG.value = 0.7;
+            uni.mieDirectionalG.value = 1;
 
             const phi = THREE.MathUtils.degToRad(90), theta = THREE.MathUtils.degToRad(180);
             sun.setFromSphericalCoords(1, phi, theta);
