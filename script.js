@@ -91,6 +91,119 @@ if (contactForm && formSuccess) {
     });
 }
 
+// Enhanced form validation
+const formInputs = document.querySelectorAll('.form-control');
+if (formInputs.length > 0) {
+    formInputs.forEach(input => {
+        // Create validation message element
+        const validationMessage = document.createElement('div');
+        validationMessage.className = 'validation-message';
+        input.parentNode.appendChild(validationMessage);
+        
+        input.addEventListener('blur', () => {
+            validateInput(input);
+        });
+        
+        input.addEventListener('input', () => {
+            // Remove validation classes while typing
+            input.classList.remove('valid', 'invalid');
+            validationMessage.textContent = '';
+            validationMessage.classList.remove('error', 'success');
+        });
+    });
+}
+
+function validateInput(input) {
+    const validationMessage = input.parentNode.querySelector('.validation-message');
+    
+    // Skip validation if empty (we'll let the browser's required attribute handle that)
+    if (!input.value.trim()) {
+        input.classList.remove('valid', 'invalid');
+        validationMessage.textContent = '';
+        validationMessage.classList.remove('error', 'success');
+        return;
+    }
+    
+    let isValid = true;
+    let message = '';
+    
+    // Email validation
+    if (input.type === 'email') {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        isValid = emailRegex.test(input.value);
+        message = isValid ? 'Valid email' : 'Please enter a valid email address';
+    }
+    
+    // Phone validation (if has name="phone")
+    if (input.name === 'phone') {
+        const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
+        isValid = phoneRegex.test(input.value);
+        message = isValid ? 'Valid phone number' : 'Please enter a valid phone number';
+    }
+    
+    // Update classes and message
+    if (isValid) {
+        input.classList.add('valid');
+        input.classList.remove('invalid');
+        validationMessage.textContent = message;
+        validationMessage.classList.add('success');
+        validationMessage.classList.remove('error');
+    } else {
+        input.classList.add('invalid');
+        input.classList.remove('valid');
+        validationMessage.textContent = message;
+        validationMessage.classList.add('error');
+        validationMessage.classList.remove('success');
+    }
+}
+
+// Bubble effect for headline
+function createBubbles() {
+    const headlineElement = document.querySelector('.home-title');
+    if (!headlineElement) return;
+    
+    // Create bubble container if it doesn't exist
+    let bubbleContainer = document.querySelector('.bubble-container');
+    if (!bubbleContainer) {
+        bubbleContainer = document.createElement('div');
+        bubbleContainer.className = 'bubble-container';
+        headlineElement.parentNode.insertBefore(bubbleContainer, headlineElement);
+    }
+    
+    // Create sparse bubbles
+    setInterval(() => {
+        if (Math.random() > 0.7) { // Only 30% chance to create a bubble for sparseness
+            createBubble(bubbleContainer, headlineElement);
+        }
+    }, 300);
+}
+
+function createBubble(container, reference) {
+    const rect = reference.getBoundingClientRect();
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    
+    // Random properties for natural look
+    const size = Math.random() * 8 + 3; // 3-11px
+    const duration = Math.random() * 3 + 4; // 4-7 seconds
+    const startPosition = Math.random() * rect.width;
+    const drift = Math.random() * 20 - 10; // -10px to +10px horizontal drift
+    
+    bubble.style.width = `${size}px`;
+    bubble.style.height = `${size}px`;
+    bubble.style.left = `${startPosition}px`;
+    bubble.style.bottom = '0';
+    bubble.style.animationDuration = `${duration}s`;
+    bubble.style.setProperty('--drift', `${drift}px`);
+    
+    container.appendChild(bubble);
+    
+    // Remove bubble after animation completes
+    setTimeout(() => {
+        bubble.remove();
+    }, duration * 1000);
+}
+
 function createWaterParticles() {
     const particlesContainer = document.getElementById('particles-container');
     const titleElement = document.querySelector('.home-title');
@@ -134,6 +247,32 @@ document.querySelectorAll('.book-btn, .premium-button').forEach(btn => {
         }, 100);
     });
 });
+
+// Enhanced button hover effects
+function enhanceButtonInteractions() {
+    const buttons = document.querySelectorAll('.book-btn, .premium-button, .submit-btn');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+            button.style.transform = 'translateY(-3px)';
+            button.style.boxShadow = 'var(--shadow-medium)';
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = '';
+            button.style.boxShadow = '';
+        });
+        
+        button.addEventListener('mousedown', () => {
+            button.style.transform = 'translateY(-1px)';
+            button.style.boxShadow = 'var(--shadow-small)';
+        });
+        
+        button.addEventListener('mouseup', () => {
+            button.style.transform = 'translateY(-3px)';
+            button.style.boxShadow = 'var(--shadow-medium)';
+        });
+    });
+}
 
 function initScene() {
     const threeJsBackground = document.getElementById('threejs-background');
@@ -214,7 +353,12 @@ function initScene() {
 
     setTimeout(() => {
         if (navContainer) navContainer.classList.add('visible');
-        if (homeContent) { homeContent.classList.add('visible'); createWaterParticles(); }
+        if (homeContent) { 
+            homeContent.classList.add('visible'); 
+            createWaterParticles();
+            createBubbles(); // Initialize bubble effect
+            enhanceButtonInteractions(); // Initialize button enhancements
+        }
     }, 1000);
 }
 
@@ -319,66 +463,26 @@ function fetchUvIndex() {
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts&appid=${openWeatherKey}`)
         .then(res => { if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`); return res.json(); })
         .then(data => {
-            if (data.current && typeof data.current.uvi !== 'undefined') {
-                let uviDesc = "";
-                if (data.current.uvi <= 2) uviDesc = "Low"; else if (data.current.uvi <= 5) uviDesc = "Moderate"; else if (data.current.uvi <= 7) uviDesc = "High"; else if (data.current.uvi <= 10) uviDesc = "Very High"; else uviDesc = "Extreme";
-                uvDiv.innerHTML = `<p style="font-size: 1.8em; margin-bottom: 5px;">${data.current.uvi}</p><p>(${uviDesc})</p>`;
-            } else { uvDiv.innerHTML = '<p>UV Index data not available.</p>'; }
-        }).catch(error => { console.error('Error fetching UV Index:', error); uvDiv.innerHTML = '<p>Could not load UV Index.</p>'; });
+            if (data.current && data.current.uvi !== undefined) {
+                const uvi = data.current.uvi;
+                let riskLevel, color;
+                if (uvi < 3) { riskLevel = 'Low'; color = '#3EA72D'; }
+                else if (uvi < 6) { riskLevel = 'Moderate'; color = '#FFF300'; }
+                else if (uvi < 8) { riskLevel = 'High'; color = '#F18B00'; }
+                else if (uvi < 11) { riskLevel = 'Very High'; color = '#E53210'; }
+                else { riskLevel = 'Extreme'; color = '#B567A4'; }
+                uvDiv.innerHTML = `<p>Current UV Index: <span style="color:${color};font-weight:bold;">${uvi} (${riskLevel})</span></p>`;
+            } else { uvDiv.innerHTML = '<p>UV data unavailable.</p>'; }
+        }).catch(error => { console.error('Error fetching UV index:', error); uvDiv.innerHTML = '<p>Could not load UV data.</p>'; });
 }
 
-function fetchSunriseSunset() {
-    const sunriseSunsetDiv = document.getElementById('sunrise-sunset');
-    if (!sunriseSunsetDiv) return;
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts&appid=${openWeatherKey}`)
-        .then(res => { if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`); return res.json(); })
-        .then(data => {
-            if (data.current && data.current.sunrise && data.current.sunset) {
-                const sunriseTime = new Date(data.current.sunrise * 1000).toLocaleTimeString('en-GB', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit' });
-                const sunsetTime = new Date(data.current.sunset * 1000).toLocaleTimeString('en-GB', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit' });
-                sunriseSunsetDiv.innerHTML = `<p>Sunrise: ${sunriseTime}</p><p>Sunset: ${sunsetTime}</p>`;
-            } else { sunriseSunsetDiv.innerHTML = '<p>Sunrise/Sunset data not available.</p>'; }
-        }).catch(error => { console.error('Error fetching Sunrise/Sunset:', error); sunriseSunsetDiv.innerHTML = '<p>Could not load Sunrise/Sunset data.</p>'; });
-}
-
-function fetchSeaTemp() {
-    const seaTempDiv = document.getElementById('sea-temp');
-    if (!seaTempDiv) return;
-    fetch(`https://api.weatherapi.com/v1/marine.json?key=${weatherApiKey}&q=${lat},${lon}&days=1`)
-        .then(res => { if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`); return res.json(); })
-        .then(data => {
-            if (data.forecast && data.forecast.forecastday && data.forecast.forecastday[0] && data.forecast.forecastday[0].hour) {
-                const hoursArray = data.forecast.forecastday[0].hour; const currentHour = new Date().getHours(); let temp = 'N/A';
-                const currentHourData = hoursArray.find(h => new Date(h.time_epoch * 1000).getHours() === currentHour);
-                if (currentHourData && typeof currentHourData.water_temp_c !== 'undefined') { temp = currentHourData.water_temp_c; }
-                else if (hoursArray.length > 0 && typeof hoursArray[0].water_temp_c !== 'undefined') { temp = hoursArray[0].water_temp_c; }
-                seaTempDiv.innerHTML = `<p style="font-size: 1.8em; margin-bottom: 5px;">${temp}°C</p>`;
-            } else { seaTempDiv.innerHTML = '<p>Sea Temp data not available.</p>'; }
-        }).catch(error => { console.error('Error fetching Sea Temperature:', error); seaTempDiv.innerHTML = '<p>Could not load Sea Temp.</p>'; });
-}
-
-function fetchMoonPhase() {
-    const moonPhaseDiv = document.getElementById('moon-phase-content');
-    if (!moonPhaseDiv) return;
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=${weatherApiKey}&q=${lat},${lon}`)
-        .then(res => { if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`); return res.json(); })
-        .then(data => {
-            if (data.astronomy && data.astronomy.astro && data.astronomy.astro.moon_phase) {
-                moonPhaseDiv.innerHTML = `<p><strong>${data.astronomy.astro.moon_phase}</strong></p><p style="font-size:0.9em;">Moonrise: ${data.astronomy.astro.moonrise}</p><p style="font-size:0.9em;">Moonset: ${data.astronomy.astro.moonset}</p>`;
-            } else { moonPhaseDiv.innerHTML = '<p>Moon Phase data not available.</p>'; }
-        }).catch(error => { console.error('Error fetching Moon Phase:', error); moonPhaseDiv.innerHTML = '<p>Could not load Moon Phase data.</p>'; });
-}
-
+// Call the API functions
 document.addEventListener('DOMContentLoaded', () => {
-    fetchWarnings(); fetchUvIndex(); fetchSunriseSunset(); fetchSeaTemp(); fetchMoonPhase();
-    setInterval(fetchWarnings, 10 * 60 * 1000);
-    setInterval(fetchUvIndex, 30 * 60 * 1000);
-    setInterval(fetchSunriseSunset, 60 * 60 * 1000);
-    setInterval(fetchSeaTemp, 30 * 60 * 1000);
-    setInterval(fetchMoonPhase, 6 * 60 * 60 * 1000);
-    if (homeContent && homeContent.classList.contains('visible')) createWaterParticles();
+    fetchWarnings();
+    fetchUvIndex();
+    // Initialize bubbles and button enhancements if page is already loaded
+    if (document.readyState === 'complete') {
+        createBubbles();
+        enhanceButtonInteractions();
+    }
 });
-window.addEventListener('load', () => { if (homeContent && homeContent.classList.contains('visible')) createWaterParticles(); });
-window.addEventListener('resize', createWaterParticles);
-
-// --- END OF NEW WIDGET JAVASCRIPT ---
