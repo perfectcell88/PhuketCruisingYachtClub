@@ -333,8 +333,7 @@ nav {
 }
 .business-details {
     display: flex; flex-wrap: wrap; justify-content: center;
-    gap: var(--space-md);
-    margin-bottom: 0px; /* <--- CHANGE THIS LINE */
+    gap: var(--space-md); margin-bottom: var(--space-md);
 }
 .detail-item {
     display: flex; align-items: center; gap: var(--space-xs);
