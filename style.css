@@ -6,7 +6,6 @@
 /* Enhanced styles for Phuket Cruising Yacht Club - Elite Marine Theme */
 
 :root {
-    --marine-highlight: #0077B6;
     --primary-dark-blue: #0A2F51;
     --secondary-accent-blue: #5085A5; /* Slightly desaturated, sophisticated blue */
     --primary-light-text: #E8EFF5; /* Off-white with a hint of cool blue */
@@ -19,7 +18,7 @@
     /* Glassmorphism Defaults */
     --glass-bg-base: rgba(10, 47, 81, 0.35); /* Base for most glass elements */
     --glass-bg-popup: rgba(10, 47, 81, 0.65); /* More opaque for main popups */
-    /* --glass-bg-nav: rgba(10, 47, 81, 0.6);   REPLACED with new nav variables */
+    --glass-bg-nav: rgba(10, 47, 81, 0.6);   /* Nav background */
     --glass-blur-amount: 10px; /* Consistent blur */
     --glass-border-light: rgba(220, 230, 240, 0.15); /* Softer light border */
     --glass-border-gold-accent: rgba(200, 181, 136, 0.25); /* Muted gold accent border */
@@ -36,12 +35,6 @@
     --space-md: 1.25rem;  /* 20px */
     --space-lg: 2rem;     /* 32px */
     --space-xl: 3rem;     /* 48px */
-
-    /* NEW Nav Background & Shadow Variables for Scroll Effect */
-    --nav-bg-initial: linear-gradient(to right, rgba(10, 25, 40, 0.7), rgba(15, 35, 55, 0.7));
-    --nav-bg-scrolled: linear-gradient(to right, rgba(10, 25, 40, 0.9), rgba(15, 35, 55, 0.9));
-    --nav-shadow-initial: 0 2px 12px rgba(0,0,0,0.2);
-    --nav-shadow-scrolled: 0 6px 25px rgba(0,0,0,0.3);
 }
 
 body, html {
@@ -128,7 +121,7 @@ body.overlay-active .home-content {
 #loading-dots { display: flex; justify-content: center; align-items: center; margin-top: var(--space-sm); }
 #loading-dots .dot {
     width: 10px; height: 10px; margin: 0 var(--space-xs);
-    background-color: var(--marine-highlight); /* Original gold */
+    background-color: var(--original-gold-highlight); /* Original gold */
     border-radius: 50%;
     animation: loadingDotAnimation 1.4s infinite ease-in-out;
 }
@@ -160,25 +153,17 @@ a:hover { color: var(--muted-gold-highlight); opacity: 0.85; }
 .nav-container {
     position: fixed; top: 0; left: 0; right: 0; width: 100%; padding: 0;
     z-index: 100; opacity: 0; transform: translateY(-100%); /* Start off-screen */
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out, background 0.4s ease, box-shadow 0.4s ease; /* ADDED background and box-shadow transition */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Smoother transition */
     pointer-events: none; visibility: hidden;
-    /* MOVED & MODIFIED background and box-shadow for scroll effect */
-    background: var(--nav-bg-initial);
-    box-shadow: var(--nav-shadow-initial);
 }
 .nav-container.visible { opacity: 1; transform: translateY(0); pointer-events: all; visibility: visible; }
-/* ADDED class for scrolled navigation state */
-.nav-container.nav-scrolled {
-    background: var(--nav-bg-scrolled);
-    box-shadow: var(--nav-shadow-scrolled);
-}
 nav {
     display: flex; justify-content: space-between; align-items: center;
     padding: var(--space-sm) var(--space-lg); /* Use spacing vars */
-    /* background: var(--glass-bg-nav); REMOVED - Handled by .nav-container */
-    backdrop-filter: var(--glass-blur-amount); -webkit-backdrop-filter: var(--glass-blur-amount); /* RETAINED from original */
-    border-bottom: 1px solid var(--glass-border-light); /* Softer border - RETAINED from original */
-    /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); REMOVED - Handled by .nav-container */
+    background: var(--glass-bg-nav);
+    backdrop-filter: var(--glass-blur-amount); -webkit-backdrop-filter: var(--glass-blur-amount);
+    border-bottom: 1px solid var(--glass-border-light); /* Softer border */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Refined shadow */
     width: 100%; box-sizing: border-box; height: 70px; /* Fixed height */
 }
 .nav-logo {
@@ -233,7 +218,7 @@ nav {
 }
 .home-title { /* Main Page Title */
     font-family: var(--font-heading-main); font-size: 2.6rem; /* Adjusted size */
-    color: var(--marine-highlight); margin-bottom: var(--space-sm);
+    color: var(--muted-gold-highlight); margin-bottom: var(--space-sm);
     text-shadow: var(--text-shadow-strong); font-weight: 700; letter-spacing: 1.5px; /* Increased spacing */
     position: relative; animation: textWave 8s ease-in-out infinite;
 }
@@ -245,14 +230,11 @@ nav {
     filter:blur(10px);animation:glowShift 10s ease-in-out infinite alternate; /* Slower, alternate */
 }
 @keyframes glowShift { 0%{opacity:0.2;transform:translateX(-50%) scale(1)} 100%{opacity:0.3;transform:translateX(-50%) scale(1.1)} }
-/* This .home-subtitle is for the main page title's subtitle, distinct from .hero-subtitle */
 .home-subtitle {
     font-family: var(--font-body); font-size: 1.3rem; /* Adjusted */
     color: var(--primary-light-text); margin-bottom: var(--space-lg);
-    font-weight: 300; /* Lighter for subtitle */
+    font-weight: 300; /* Lighter for subtitle */ text-shadow: var(--text-shadow-soft);
     letter-spacing: 0.5px;
-    /* MODIFIED text-shadow as per request */
-    text-shadow: 0 1px 2px rgba(0,0,0,0.7), 0 0 10px rgba(249,217,118,0.15);
 }
 
 /* --- HERO WELCOME (Below main title) - Sizing & Glassmorphism --- */
@@ -270,12 +252,10 @@ nav {
     margin-bottom: var(--space-sm); letter-spacing: 1px; /* Refined spacing */
     text-shadow: var(--text-shadow-strong);
 }
-.hero-subtitle { /* "Your Home Base..." / "Your Tranquil Haven..." */
+.hero-subtitle { /* "Your Home Base..." */
     font-family: var(--font-body); font-size: 1.15rem; /* Adjusted */
     color: var(--primary-light-text); font-weight: 300; letter-spacing: 0.3px;
-    /* MODIFIED text-shadow for this specific subtitle instance for consistency, can be overridden if main .home-subtitle is different */
-    text-shadow: 0 1px 2px rgba(0,0,0,0.7), 0 0 10px rgba(249,217,118,0.15);
-    margin-bottom: 0; /* Remove bottom margin if it's the last element */
+    text-shadow: var(--text-shadow-soft); margin-bottom: 0; /* Remove bottom margin if it's the last element */
 }
 
 /* --- INTRO TEXT & AMENITIES - Layout, Sizing, Glassmorphism --- */
@@ -326,29 +306,16 @@ nav {
 .detail-item { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm); border-radius: 8px; }
 .detail-item i { font-size: 1.3rem; color: var(--secondary-accent-blue); }
 .detail-item span { font-family: var(--font-body); font-size: 0.95rem; color: var(--primary-light-text); }
-.announcement { /* MODIFIED "Taco Tuesday" styles */
-    grid-column: 1 / -1; display: flex; align-items: center; justify-content: flex-start;
-    gap: var(--space-sm);
+.announcement {
+    grid-column: 1 / -1; display: flex; align-items: center; gap: var(--space-sm);
     margin-top: var(--space-md); padding: var(--space-md);
-    border-radius: 10px;
-    /* MODIFIED for standout */
-    background: var(--muted-gold-highlight);
-    color: var(--primary-dark-blue);
-    font-weight: 600;
-    text-shadow: 1px 1px 0px rgba(255,255,255,0.15);
-    border: 1px solid rgba(0,0,0,0.1); /* Added subtle border */
+    background: rgba(200, 181, 136, 0.08); /* Muted gold tint */
+    border-radius: 10px; border: 1px solid var(--glass-border-gold-accent);
+    color: var(--muted-gold-highlight);
 }
-.announcement i {
-    font-size: 1.5rem;
-    color: var(--primary-dark-blue); /* Match text color */
-    animation: pulseStar 2.5s infinite ease-in-out;
-}
+.announcement i { font-size: 1.5rem; color: var(--muted-gold-highlight); animation: pulseStar 2.5s infinite ease-in-out; }
 @keyframes pulseStar { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.15);opacity:0.7} } /* Star specific pulse */
-.announcement span {
-    font-family: var(--font-body); font-size: 1.05rem;
-    color: var(--primary-dark-blue); /* Match text color */
-    /* font-weight is on parent .announcement */
-}
+.announcement span { font-family: var(--font-body); font-size: 1.05rem; color: var(--muted-gold-highlight); font-weight: 500; }
 
 /* --- SERVICES SHOWCASE (Homepage) - Refined --- */
 .services-showcase {
@@ -399,13 +366,7 @@ nav {
     max-width: 700px; /* Optimal reading width */
     background: transparent !important; border: none !important; padding: 0 !important; /* Override general p styles */
 }
-.benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Ensuring 3 columns from original CSS */
-    gap: var(--space-lg);
-    margin-bottom: var(--space-xl);
-    align-items: stretch; /* ADDED to make cards in a row equal height */
-}
+.benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-lg); margin-bottom: var(--space-xl); }
 .benefit-category { /* Each of the 3 category boxes */
     background: rgba(10, 47, 81, 0.2); /* Darker, subtler glass for inner cards */
     backdrop-filter: calc(var(--glass-blur-amount) - 5px); -webkit-backdrop-filter: calc(var(--glass-blur-amount) - 5px);
@@ -413,8 +374,6 @@ nav {
     border-radius: 10px; padding: var(--space-lg);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex; flex-direction: column;
-    /* min-height: 450px; REMOVED to address empty space issue */
-    /* height: 100%; RETAINED from original - works with align-items: stretch on parent */
 }
 .benefit-category h4 { /* "Partner Discounts", "Club Privileges", etc. */
     color: var(--secondary-accent-blue); font-size: 1.25rem; margin-bottom: var(--space-md);
@@ -425,10 +384,7 @@ nav {
     content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
     width: 40px; height: 2px; background: var(--secondary-accent-blue); opacity: 0.4;
 }
-.benefits-list {
-    list-style: none; padding: 0; margin: 0;
-    flex-grow: 1; /* ADDED to allow list to take available vertical space */
-}
+.benefits-list { list-style: none; padding: 0; margin: 0; }
 .benefits-list li {
     padding: var(--space-sm); margin-bottom: var(--space-sm);
     background: rgba(10, 47, 81, 0.25); /* Even subtler background for list items */
@@ -472,7 +428,6 @@ nav {
     background: var(--glass-bg-base);
     backdrop-filter: var(--glass-blur-amount); -webkit-backdrop-filter: var(--glass-blur-amount);
     border: 1px solid var(--glass-border-gold-accent); font-size: 0.9rem;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.7); /* ADDED for readability */
 }
 .event-link:hover {
     color: var(--muted-gold-highlight); text-shadow: 0 0 8px rgba(200, 181, 136, 0.3);
@@ -767,44 +722,12 @@ textarea.form-control { min-height: 100px; /* Adjusted */ resize: vertical; }
 .widget-grid { /* Container for the captain-widgets (iframes) */
     max-width: 1300px; /* Adjusted for better fit */ margin: 0 auto;
     padding: var(--space-lg) var(--space-md); gap: var(--space-lg); /* Consistent spacing */
-    /* MODIFIED grid-template-columns from user's original CSS was: repeat(3, 1fr) */
-    /* My previous suggestion was repeat(auto-fit, minmax(300px, 1fr)); User's file has repeat(3,1fr) for .widget-grid already. This is fine. */
-    /* The user's style.css uses grid-template-columns: repeat(3, 1fr); */
-    /* Ensuring this is the version used if it wasn't picked up before. */
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Explicit 3 columns from user's file for this specific grid */
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusted minmax */
 }
-
-.captain-widget { /* From user's inline styles, ensure it overrides generic .widget if both applied */
-    background: rgba(0,0,0,0.6) !important; /* Darker, more opaque from original */
-    padding: 15px !important;
-    border-radius: 10px !important;
-    border: 1px solid rgba(249,217,118,0.15) !important; /* Original gold border */
-    text-align: center !important;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.5) !important; /* Original shadow */
-    color: #f0f4f8 !important; /* Using a light text color for content inside these dark widgets */
-    /* ADDED for iframe flex behavior */
-    display: flex;
-    flex-direction: column;
-}
-.captain-widget h4 { /* For titles *inside* captain-widget IFRAME containers */
-    color: var(--original-gold-highlight) !important; /* Use original gold */
-    margin-top: 0 !important; margin-bottom: 10px !important;
-    font-family: 'Marcellus SC', serif !important; font-size: 1.1em !important; /* Adjusted */
-    font-weight: normal !important; letter-spacing: 0.5px !important;
-}
-/* Styling for iframes within .captain-widget */
-.captain-widget iframe {
-    width: 100%;
-    flex-grow: 1; /* ADDED to allow iframe to fill vertical space */
-    border: none;
-    border-radius: 6px; /* Softer radius for iframe itself */
-    /* height is defined in HTML for these iframes, flex-grow helps if content is larger */
-}
-
-
-/* Generic .widget styling - from user's original multiple definitions, consolidated */
-.widget {
+/* Styling for `.captain-widget` (the iframe containers) is primarily handled by inline styles in HTML. */
+/* If there are generic `.widget` classes from style.css meant for these, they might be affected by the global .widget style below. */
+/* The user's provided CSS had multiple `.widget` definitions. This consolidates to one generic style. */
+.widget { /* Generic styling for any element with class="widget" */
     background: var(--glass-bg-base); /* Apply glass effect */
     backdrop-filter: var(--glass-blur-amount); -webkit-backdrop-filter: var(--glass-blur-amount);
     border: 1px solid var(--glass-border-light);
@@ -815,39 +738,44 @@ textarea.form-control { min-height: 100px; /* Adjusted */ resize: vertical; }
     display: flex; flex-direction: column;
 }
 .widget:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
-
 .widget h2, .widget .widget-title { /* Title inside generic .widget */
     text-align: center; font-family: var(--font-heading-card); font-size: 1.2rem; /* Adjusted */
     margin: 0 0 var(--space-md); /* Adjusted margin */ color: var(--muted-gold-highlight);
     text-shadow: var(--text-shadow-soft); font-weight: normal; letter-spacing: 0.5px;
 }
-.widget iframe { /* For iframes inside a generic .widget that isn't a .captain-widget */
+.widget iframe {
     width: 100%; flex-grow: 1; min-height: 200px; /* Adjusted from 220px */
     border: none; border-radius: 8px; /* Softer radius for iframe */
     overflow: hidden;
 }
-.widget > div[id] p strong, .widget > div[id] p[style*="font-size: 1.8em"] { /* From original style.css */
-    color: #f9d976;
-    font-weight: bold;
+/* Ensure styling for .captain-widget from HTML inline styles takes precedence for dashboard items */
+.captain-widget { /* From user's inline styles, ensure it overrides generic .widget if both applied */
+    background: rgba(0,0,0,0.6) !important; /* Darker, more opaque from original */
+    padding: 15px !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(249,217,118,0.15) !important; /* Original gold border */
+    text-align: center !important;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5) !important; /* Original shadow */
+    color: #f0f4f8 !important;
 }
+.captain-widget h4 { /* For titles *inside* captain-widget IFRAME containers */
+    color: var(--original-gold-highlight) !important; /* Use original gold */
+    margin-top: 0 !important; margin-bottom: 10px !important;
+    font-family: 'Marcellus SC', serif !important; font-size: 1.1em !important; /* Adjusted */
+    font-weight: normal !important; letter-spacing: 0.5px !important;
+}
+
+/* Warning/error text inside widgets */
 .widget .warning { /* From original user CSS */
     color: #ff8a80; /* Original color */
     font-weight: bold; font-size: 0.9em;
 }
 
-
 /* --- MEDIA QUERIES - Adapting new styles for responsiveness --- */
 /* Using user's existing media query structure and adding/adjusting rules */
 @media (max-width: 1200px) {
-    .widget-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); padding: var(--space-lg) var(--space-sm); } /* For captain widgets */
-    .benefits-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); } /* For benefits grid */
-    .dashboard { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); } /* For user's other dashboard */
-}
-@media (min-width: 1400px) { /* From user's original CSS, for .captain-widget */
-    .captain-widget, .widget { /* Ensuring it applies to .captain-widget specifically too */
-        width: 360px !important; max-width: 360px !important;
-        margin-left: auto !important; margin-right: auto !important; /* Center if grid column is wider */
-    }
+    .widget-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); padding: var(--space-lg) var(--space-sm); }
+    .dashboard { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
 }
 @media (min-width: 769px) and (max-width: 1024px) { /* Tablet */
     #main-scrollable-content-wrapper { padding-top: 80px; } /* Adjust for nav */
@@ -859,11 +787,10 @@ textarea.form-control { min-height: 100px; /* Adjusted */ resize: vertical; }
     .main-logo { width: 160px; height: 160px; }
     .content-container { padding: var(--space-lg); width: 92%; } .content-container h2 { font-size: 1.8rem; }
     .amenity-card h3 { font-size: 1.3rem; } .amenity-card p { font-size: 0.85rem; }
-    /* .benefits-grid already handled by max-width: 1200px */
+    .benefits-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-lg); }
     .membership-benefits { padding: var(--space-lg); }
     .services-grid.popup-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-    .services-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } /* Homepage services grid */
-     /* .widget-grid already handled by max-width: 1200px */
+    .services-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 }
 @media (max-width: 768px) { /* Smaller tablets and large mobiles */
     body { font-size: 15px; } /* Slightly smaller base for small screens */
@@ -876,7 +803,7 @@ textarea.form-control { min-height: 100px; /* Adjusted */ resize: vertical; }
         display: flex; top: calc(60px / 2 - 14px); right: var(--space-md);
         color: var(--muted-gold-highlight); z-index: 1100; /* Above nav links if they overlap */
         width: 28px; height: 28px; justify-content: center; align-items: center;
-        background: transparent; border: none; cursor: pointer; position: fixed; /* Ensure it's fixed */
+        background: transparent; border: none; cursor: pointer;
     }
     .mobile-menu-btn svg { width: 22px; height: 22px; stroke: var(--muted-gold-highlight); stroke-width: 2.5px; }
 
@@ -902,7 +829,7 @@ textarea.form-control { min-height: 100px; /* Adjusted */ resize: vertical; }
     }
     .nav-link::after { display: none; } /* No underline in mobile menu */
 
-    .home-title { font-size: 2rem; } .hero-title { font-size: 1.8rem; } .hero-subtitle { font-size: 1.1rem; }
+    .home-title { font-size: 2rem; } .hero-title { font-size: 1.8rem; } .home-subtitle { font-size: 1.1rem; }
     .main-logo { width: 140px; height: 140px; margin: var(--space-lg) auto var(--space-sm); }
     .hero-welcome { max-width: 90%; padding: var(--space-lg) var(--space-sm); }
     .amenities-grid { grid-template-columns: 1fr; gap: var(--space-md); }
@@ -912,20 +839,20 @@ textarea.form-control { min-height: 100px; /* Adjusted */ resize: vertical; }
     .section-logo { width: 55px; height: 55px; top: calc(var(--space-lg) * -0.5); }
     .benefits-grid { grid-template-columns: 1fr; }
     .membership-benefits .elegant-title { font-size: 1.7rem; }
-    .services-grid { grid-template-columns: 1fr; } /* Homepage services grid */
-    .service-card { padding: var(--space-lg); } .service-card h3 { font-size: 1.3rem; } /* Popup service card */
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card { padding: var(--space-lg); } .service-card h3 { font-size: 1.3rem; }
     .stat-number { font-size: 1.8rem; } .stat-label { font-size: 0.8rem; }
-    .widget-grid { grid-template-columns: 1fr; padding: var(--space-md) var(--space-xs); gap: var(--space-md); } /* Captain widgets */
-    .dashboard { grid-template-columns: 1fr; gap: var(--space-md); } /* User's other dashboard */
-    .dashboard .widget { padding: 15px; min-height: 260px; } /* User's other dashboard widget */
-    .dashboard .widget .widget-title { font-size: 1.3em; }
-    .dashboard .widget iframe { min-height: 200px; }
-    .captain-widget iframe { min-height: 180px; } /* Adjust captain widget iframe on small screens */
+    .widget-grid { grid-template-columns: 1fr; padding: var(--space-md) var(--space-xs); gap: var(--space-md); }
+    .dashboard { grid-template-columns: 1fr; gap: var(--space-md); }
+    .widget iframe { min-height: 180px; } /* Further reduce iframe height on small screens */
+    /* User's original .widget styles from media queries - these are likely for their new dashboard grid */
+    .widget { padding: 15px; min-height: auto; /* Let content define height */ }
+    .widget .widget-title { font-size: 1.2em; }
 }
 @media (max-width: 480px) { /* Smallest Mobile */
     #main-scrollable-content-wrapper { padding-top: 60px; }
     nav { height: 55px; } .mobile-menu-btn { top: calc(55px / 2 - 14px); }
-    .home-title { font-size: 1.7rem; } .hero-title { font-size: 1.5rem; } .hero-subtitle { font-size: 1rem; }
+    .home-title { font-size: 1.7rem; } .hero-title { font-size: 1.5rem; } .home-subtitle { font-size: 1rem; }
     .main-logo { width: 120px; height: 120px; }
     .content-container { padding: var(--space-md); width: 100%; border-radius: 8px; max-height: 90vh;}
     .content-container h2 { font-size: 1.5rem; }
@@ -935,96 +862,43 @@ textarea.form-control { min-height: 100px; /* Adjusted */ resize: vertical; }
     .form-control { padding: var(--space-sm); font-size: 0.85rem; }
     .submit-btn, .book-btn { padding: var(--space-sm) var(--space-lg); font-size: 0.85rem; }
     .premium-button { padding: var(--space-sm) var(--space-lg); font-size: 0.9rem; }
-    .captain-widget .widget-title { font-size: 1.1em; } /* Original adjustment for captain widget title from user CSS */
-    .dashboard .widget .widget-title { font-size: 1.1em; } /* Consistency for other dashboard titles */
-    .dashboard .widget { min-height: 240px; } /* User's other dashboard widget */
+    .widget .widget-title { font-size: 1.1em; } /* Original adjustment from user CSS */
 }
 
 .mobile-menu-btn { /* Base styles, ensured it's correctly targeted */
     display: none; /* Hidden by default, shown by @media */
 }
 
-/* Styles for .dashboard from user's original style.css - distinct from .widget-grid */
-.dashboard {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* From user's file */
-    gap: 25px; /* From user's file */
-    padding: 25px; /* From user's file */
-    max-width: 1600px; /* From user's file */
-    margin: 20px auto; /* From user's file */
-}
-/* .widget inside this specific .dashboard - styles from user's file */
-.dashboard .widget {
-    background: var(--glass-bg-base); /* Using theme variable */
-    backdrop-filter: var(--glass-blur-amount); /* Using theme variable */
-    border: 1px solid var(--glass-border-light); /* Using theme variable */
-    border-radius: 12px; /* Match other theme cards */
-    color: var(--primary-light-text); /* Using theme variable */
-    padding: var(--space-md); /* Using theme variable */
-    box-shadow: 0 10px 30px rgba(0,0,0,.1); /* Standard shadow */
-    display: flex; flex-direction: column; /* For content alignment */
-}
-.dashboard .widget .widget-title {
-    color: var(--muted-gold-highlight); /* Using theme variable */
-    font-family: var(--font-heading-card); /* Using theme variable */
-    font-size: 1.3em; /* From user's file */
-    text-align: center; /* From user's file */
-    margin-bottom: 15px; /* From user's file */
-}
-/* iframe inside this specific .dashboard .widget */
-.dashboard .widget iframe {
-    width: 100%; flex-grow: 1; min-height: 220px; /* min-height from user's file */
-    border: none; border-radius: 8px; /* Match other iframes */
-    overflow: hidden;
-}
-/* Further styles from user's file for .dashboard .widget */
-.dashboard .widget > div[id] { /* From user's file */
-    padding:10px; flex-grow:1; display:flex; flex-direction:column;
-    justify-content:center; align-items:center; text-align:center;
-    font-size:1em; line-height:1.5;
-}
-.dashboard .widget > div[id] p { color: var(--primary-light-text); opacity: 0.9; } /* Using theme variable */
-.dashboard .widget > div[id] p strong, .dashboard .widget > div[id] p[style*="font-size: 1.8em"] { /* From user's file */
-    color: #f9d976; /* Original gold for emphasis here */
-    font-weight: bold;
-}
-.dashboard .widget .warning { /* From user's file */
-    color: #ff8a80;
-    font-weight: bold;
-    font-size: 0.9em;
-}
+/* Ensure captain dashboard specific title styling from HTML inline style is preserved */
+/* The .glass-box styles in HTML are very specific to the dashboard intro. */
 
-/* Responsive adjustments for this .dashboard from user's file */
-@media screen and (max-width: 1200px) {
-    .dashboard {
-        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); /* From user's file */
-    }
+/* These styles from user's original CSS seem to be for a dashboard distinct from .widget-grid/captain-widget */
+/* I'll apply marine theme vars carefully if they don't conflict with "do not change" widgets */
+.dashboard { /* This is distinct from widget-grid which holds captain-widgets */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    padding: 25px;
+    max-width: 1600px;
+    margin: 20px auto;
 }
-@media screen and (max-width: 768px) {
-    .dashboard {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* From user's file */
-        gap: 20px; /* From user's file */
-    }
-    .dashboard .widget { /* Widget inside this specific .dashboard */
-        padding: 15px; /* From user's file */
-        min-height: 260px; /* From user's file */
-    }
-    .dashboard .widget .widget-title { /* Title inside this .dashboard .widget */
-        font-size: 1.3em; /* From user's file */
-    }
-    .dashboard .widget iframe { /* iframe inside this .dashboard .widget */
-        min-height: 200px; /* From user's file */
-    }
+.dashboard .widget { /* If a widget is directly inside .dashboard (not .widget-grid) */
+    background: var(--glass-bg-base);
+    backdrop-filter: var(--glass-blur-amount);
+    border: 1px solid var(--glass-border-light);
+    border-radius: 12px; /* Match other cards */
+    color: var(--primary-light-text);
+    /* Other styles from original .widget in global scope were:
+       min-height: 300px; (Can be adjusted or let content define)
+       padding: 20px; (Using var(--space-md) instead)
+       box-shadow: 0 10px 30px rgba(0,0,0,.1); (Covered by general .widget)
+       display: flex; flex-direction: column; (Covered)
+    */
 }
-@media screen and (max-width: 480px) {
-    .dashboard {
-        grid-template-columns: 1fr; /* From user's file */
-        gap: 15px; /* From user's file */
-    }
-    .dashboard .widget { /* Widget inside this specific .dashboard */
-        min-height: 240px; /* From user's file, adjusted from auto */
-    }
-    .dashboard .widget .widget-title { /* Title inside this .dashboard .widget */
-        font-size: 1.2em; /* From user's file */
-    }
+.dashboard .widget .widget-title { /* Title within these specific dashboard widgets */
+    color: var(--muted-gold-highlight);
+    font-family: var(--font-heading-card);
+    font-size: 1.3em; /* From original */
+    /* Other styles from original: text-align: center; margin-bottom: 15px; (Covered) */
 }
+/* The styles for .widget iframe that were globally defined in user CSS will apply here too if structure matches. */
