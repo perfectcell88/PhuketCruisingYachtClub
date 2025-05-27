@@ -666,7 +666,7 @@ nav {
 .content-container::-webkit-scrollbar-thumb:hover { background: var(--muted-gold-highlight); }
 
 .section-logo { /* Logo on top of popup */
-    width: 70px; height: 70px; position: absolute; top: -25px; /* FURTHER ADJUSTED: Pushed down to prevent cutoff */
+    width: 70px; height: 70px; position: absolute; top: -15px; /* FURTHER ADJUSTED: Pushed down more to prevent cutoff */
     left: 50%; transform: translateX(-50%);
     filter: drop-shadow(0 0 10px var(--muted-gold-highlight));
     border-radius: 50%; border: 3px solid var(--primary-dark-blue); /* Thicker border */
@@ -925,8 +925,20 @@ textarea.form-control { min-height: 100px; /* Adjusted */ resize: vertical; }
 
 /* --- ACCOMMODATION - Bungalow Cards --- */
 .accommodation-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    display: grid; grid-template-columns: repeat(3, 1fr);
     gap: var(--space-lg); margin: var(--space-lg) 0;
+}
+
+@media screen and (max-width: 992px) {
+    .accommodation-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .accommodation-grid {
+        grid-template-columns: 1fr;
+    }
 }
 .bungalow-card {
     background: var(--glass-bg-base);
