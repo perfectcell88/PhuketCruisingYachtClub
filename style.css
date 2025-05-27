@@ -666,7 +666,7 @@ nav {
 .content-container::-webkit-scrollbar-thumb:hover { background: var(--muted-gold-highlight); }
 
 .section-logo { /* Logo on top of popup */
-    width: 70px; height: 70px; position: absolute; top: 5px; /* FURTHER ADJUSTED: Pushed down more to prevent cutoff */
+    width: 80px; height: 80px; position: absolute; top: 8px; /* FURTHER ADJUSTED: Pushed down more to prevent cutoff */
     left: 50%; transform: translateX(-50%);
     filter: drop-shadow(0 0 10px var(--muted-gold-highlight));
     border-radius: 50%; border: 3px solid var(--primary-dark-blue); /* Thicker border */
