@@ -145,6 +145,7 @@
         <main id="main-scrollable-content-wrapper">
             <section class="home-content" id="home" aria-labelledby="main-home-title">
                 <img src="logob.png" alt="Phuket Cruising Yacht Club Emblem" class="main-logo">
+                <div class="bubble-animation" id="bubbleContainer"></div>
                 <h1 class="home-title" id="main-home-title">Phuket Cruising Yacht Club</h1>
                 <div class="particles-container" id="particles-container" aria-hidden="true"></div>
                 
@@ -718,6 +719,43 @@
             // Removed redundant particle creation call as it's handled in initScene's timeout
         });
 
+    </script>
+    <script>
+        // Bubble animation for main title
+        document.addEventListener('DOMContentLoaded', function() {
+            function createBubbles() {
+                const container = document.getElementById('bubbleContainer');
+                if (!container) return;
+                
+                const bubbleCount = 15;
+                
+                for (let i = 0; i < bubbleCount; i++) {
+                    const size = Math.random() * 12 + 4; // Random size between 4px and 16px
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    bubble.style.width = `${size}px`;
+                    bubble.style.height = `${size}px`;
+                    bubble.style.left = `${Math.random() * 100}%`;
+                    bubble.style.opacity = '0';
+                    
+                    // Random animation duration between 3s and 8s
+                    const duration = Math.random() * 5 + 3;
+                    bubble.style.animation = `bubbleRise ${duration}s linear infinite`;
+                    
+                    // Random delay so they don't all start at once
+                    bubble.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    // Random horizontal drift
+                    const drift = Math.random() * 40 - 20; // Between -20px and 20px
+                    bubble.style.setProperty('--drift', `${drift}px`);
+                    
+                    container.appendChild(bubble);
+                }
+            }
+            
+            // Initialize bubbles
+            createBubbles();
+        });
     </script>
 </body>
 </html>
